@@ -1,0 +1,75 @@
+/**
+ * CSS for portfolio page(s)
+ */
+
+/* Project Archive Page */
+.post-type-archive-projects .no-projects {
+    text-align: center;
+    font-size: 125%;
+}
+.post-type-archive-projects .project-block {
+    height: 300px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.post-type-archive-projects .project-block > .project-image {
+    width:100%;
+    height:100%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    position: relative;
+    vertical-align: middle;
+}
+.post-type-archive-projects .project-block > .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.post-type-archive-projects .project-block > .project-title {
+    line-height: 20px;
+    margin-top: -30px;
+    position: relative;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.8);
+}
+.post-type-archive-projects .project-block > .project-title > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+}
+
+/* Single Project Page */
+.single-projects .project-title {
+    margin-bottom: 20px;
+}
+.single-projects .project-thumbnail {
+    text-align: center;
+}
+.single-projects .project-links {
+    text-align: center;
+}
+.single-projects .project-links > ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.single-projects .project-navigation {
+    text-align: center;
+}
+.single-projects .project-navigation div {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Changes at medium breakpoint */
+@media (min-width: 768px) {
+    .single-projects .project-links {
+        text-align: right;
+    }
+}

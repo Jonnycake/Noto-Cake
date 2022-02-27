@@ -1,0 +1,36 @@
+/**
+ * Custom classes for jonnycake.tech
+ */
+.no-margin {
+    margin: 0 !important;
+}
+figcaption {
+    text-align: center;
+}
+p {
+    margin-bottom: 10px;
+}
+ul, ol {
+    margin: 0;
+}
+h1, h2, h3, h4, h5 {
+    margin-top: 20px;
+}
+h1.site-title {
+    margin-bottom: 10px;
+}
+#masthead {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.menu-toggle {
+    margin-right: 20px;
+    margin-top: 20px;
+    z-index: 2;
+}
+
+.flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
