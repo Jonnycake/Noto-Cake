@@ -21,7 +21,6 @@ add_filter('wpfc_fullcalendar_args', function($args) {
 
     return $args;
 });
-apply_filters('wpfc_fullcalendar_args', $args);
 
 
 // This is where we can modify individual event fields
@@ -34,6 +33,8 @@ add_filter('wpfc_ajax_post', function($item, $post) {
 
     $item['start'] = $start_date_dt->format('Y-m-d\TH:i:s');
     $item['end']   = $end_date_dt->format('Y-m-d\TH:i:s');
+    $item['editable'] = get_the_author_ID($post->ID) == get_current_user_id();
+    $item['allDay'] = get_field('is_all_day', $post->ID);
 
     $color = "#aaa";
 
@@ -76,23 +77,8 @@ add_filter('wpfc_qtip_content', function($content) {
     return $content;
 });
 
-// This gets triggered after the calendar is added to the page, we can use it to add JS
-add_action('wpfc_calendar_displayed', function() {
-    ?>
-    <script type="text/javascript">
-    // Make it so that clicking events opens them in a new tab (so we keep our place)
-    jQuery(document).ready(function() {
-        jQuery('.wpfc-calendar').on( 'click', '.fc-event', function(e){
-            e.preventDefault();
-            window.open( jQuery(this).attr('href'), '_blank' );
-        });
+add_action('wp_ajax_WP_FullCalendar', function() {
+    add_filter('option_wpfc_limit', function() {
+        return PHP_INT_MAX;
     });
-
-    // Modify the arguments passed to full calendar
-    jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
-        // Disable scrollbar on agenda view
-        args.height = 'auto';
-    });
-    </script>
-    <?php
-});
+}, 1);

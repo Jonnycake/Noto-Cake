@@ -3,6 +3,75 @@
     "title": "Event Fields",
     "fields": [
         {
+            "key": "field_62227a5535b69",
+            "label": "Basic Information",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_6214dce9bb5d3",
+            "label": "Start Date Time",
+            "name": "start_date_time",
+            "type": "date_time_picker",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "40",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "Y-m-d H:i:s",
+            "return_format": "Y-m-d H:i:s",
+            "first_day": 0
+        },
+        {
+            "key": "field_6214dd187eb2e",
+            "label": "End Date Time",
+            "name": "end_date_time",
+            "type": "date_time_picker",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "40",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "Y-m-d H:i:s",
+            "return_format": "Y-m-d H:i:s",
+            "first_day": 0
+        },
+        {
+            "key": "field_62227a2535b67",
+            "label": "Is All Day?",
+            "name": "is_all_day",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "20",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
             "key": "field_6214dd3bf8c5d",
             "label": "Description",
             "name": "description",
@@ -22,38 +91,20 @@
             "delay": 0
         },
         {
-            "key": "field_6214dce9bb5d3",
-            "label": "Start Date Time",
-            "name": "start_date_time",
-            "type": "date_time_picker",
+            "key": "field_62227a3535b68",
+            "label": "Access Control",
+            "name": "",
+            "type": "tab",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "display_format": "Y-m-d H:i:s",
-            "return_format": "Y-m-d H:i:s",
-            "first_day": 0
-        },
-        {
-            "key": "field_6214dd187eb2e",
-            "label": "End Date Time",
-            "name": "end_date_time",
-            "type": "date_time_picker",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "display_format": "Y-m-d H:i:s",
-            "return_format": "Y-m-d H:i:s",
-            "first_day": 0
+            "placement": "top",
+            "endpoint": 0
         },
         {
             "key": "field_621a4d5d2f024",
@@ -99,6 +150,24 @@
             "allow_null": 0,
             "multiple": 1,
             "return_format": "id"
+        },
+        {
+            "key": "field_6221f1c282185",
+            "label": "Editors",
+            "name": "editors",
+            "type": "user",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "role": "",
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id"
         }
     ],
     "location": [
@@ -119,5 +188,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1645891470
+    "modified": 1646426829
 }

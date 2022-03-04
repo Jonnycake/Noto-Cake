@@ -28,7 +28,18 @@ function notocake_enqueue_styles() {
         filemtime(__DIR__ . '/../assets/css/events.css')
     );
 
+    wp_enqueue_script(
+        'jc-event-crud',
+        get_stylesheet_directory_uri() . '/assets/js/jc-event-crud.js',
+        array(),
+        filemtime(__DIR__ . '/../assets/js/jc-event-crud.js')
+    );
 
-    wp_enqueue_script('bootstra-js', '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js');
+    wp_localize_script( 'jc-event-crud', 'my_restapi_details', array(
+        'rest_url' => esc_url_raw( rest_url() ),
+        'nonce' => wp_create_nonce( 'wp_rest' )
+    ) );
+
+    wp_enqueue_script('bootstrap-js', '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js');
 }
 add_action( 'wp_enqueue_scripts', 'notocake_enqueue_styles' );
