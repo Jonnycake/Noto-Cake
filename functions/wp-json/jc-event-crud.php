@@ -28,37 +28,35 @@ function jc_create_event($event_details)
     return array('id' => $post_id);
 }
 
-function jc_edit_event($event_updates)
+function jc_edit_event($event_details)
 {
-    if (!isset($event_updates['id'])) return false;
+    if (!isset($event_details['id'])) return false;
 
-    $event_id = (int) $event_updates['id'];
+    $post_id = (int) $event_details['id'];
 
     if (!isset($event_details['title'])) {
         $postarr = array(
-            'ID' => $event_id,
+            'ID' => $post_id,
             'post_title' => $event_details['title'],
         );
     }
 
-    if (isset($event_updates['start_date_time'])) {
+    if (isset($event_details['start_date_time'])) {
         $start_dt = new DateTime($event_details['start_date_time']);
-var_dump($start_dt->format('Y-m-d H:i:s'));
-die();
-        update_field('start_date_time', $start_dt->format('Y-m-d H:i:s'), $event_id);
+        update_field('start_date_time', $start_dt->format('Y-m-d H:i:s'), $post_id);
     }
 
-    if (isset($event_updates['end_date_time'])) {
+    if (isset($event_details['end_date_time'])) {
         $end_dt = new DateTime($event_details['end_date_time']);
-        update_field('end_date_time', $end_dt->format('Y-m-d H:i:s'), $event_id);
+        update_field('end_date_time', $end_dt->format('Y-m-d H:i:s'), $post_id);
     }
 
-    if (isset($event_updates['description'])) {
-        update_field('start_date_time', $event_updates['start_date_time'], $event_id);
+    if (isset($event_details['description'])) {
+        update_field('start_date_time', $event_details['start_date_time'], $post_id);
     }
 
-    if (isset($event_updates['is_all_day'])) {
-        update_field('is_all_day', (int) $event_updates['is_all_day'], $event_id);
+    if (isset($event_details['is_all_day'])) {
+        update_field('is_all_day', (int) $event_details['is_all_day'], $post_id);
     }
 
     return true;
