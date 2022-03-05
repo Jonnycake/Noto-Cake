@@ -53,19 +53,24 @@ jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
     }
 
     args.eventResize = function(event, delta, revertFunc) {
-
-        //alert(event.title + " end is now " + event.end.format());
-
-        //if (!confirm("is this okay?")) {
-        //    revertFunc();
-        //}
         var data = {
             id: event.id,
             start_date_time: event.start.format(),
-            end_date_time: event.end.format(),
+            end_date_time: (event.end ? event.end.format() : event.start.format()),
+            is_all_day: !(event.start.hasTime() && event.end && event.end.hasTime()),
         };
 
-console.log(data);
+        jc_edit_event(data, jQuery(document));
+    };
+
+    args.eventDrop = function( event, delta, revertFunc, jsEvent, ui, view ) {
+        var data = {
+            id: event.id,
+            start_date_time: event.start.format(),
+            end_date_time: (event.end ? event.end.format() : event.start.format()),
+            is_all_day: !(event.start.hasTime() && event.end && event.end.hasTime()),
+        };
+
         jc_edit_event(data, jQuery(document));
     };
 
