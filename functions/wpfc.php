@@ -31,6 +31,7 @@ add_filter('wpfc_ajax_post', function($item, $post) {
     $start_date_dt = new DateTime($start_date);
     $end_date_dt = new DateTime($end_date);
 
+    $item['id'] = $post->ID;
     $item['start'] = $start_date_dt->format('Y-m-d\TH:i:s');
     $item['end']   = $end_date_dt->format('Y-m-d\TH:i:s');
     $item['editable'] = get_the_author_ID($post->ID) == get_current_user_id();

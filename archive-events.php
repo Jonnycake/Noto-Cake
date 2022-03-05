@@ -49,10 +49,25 @@ jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
         jQuery('#new_event_start_date').val(start_dt);
         jQuery('#new_event_end_date').val(end_dt);
         jQuery('#new_event_all_day').prop('checked', !(start.hasTime() && end.hasTime()));
-        console.log(start.hasTime());
-        console.log(end.hasTime());
         tinyMCE.get('new_event_description').setContent('');
     }
+
+    args.eventResize = function(event, delta, revertFunc) {
+
+        //alert(event.title + " end is now " + event.end.format());
+
+        //if (!confirm("is this okay?")) {
+        //    revertFunc();
+        //}
+        var data = {
+            id: event.id,
+            start_date_time: event.start.format(),
+            end_date_time: event.end.format(),
+        };
+
+console.log(data);
+        jc_edit_event(data, jQuery(document));
+    };
 
     <?php if (isset($_REQUEST['date'])) { ?>
         args.defaultDate = "<?= esc_attr($_REQUEST['date']) ?>";
@@ -62,6 +77,7 @@ jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
         args.defaultView = "<?= esc_attr($_REQUEST['view']) ?>";
     <?php } ?>
 
+    args.navLinks = true;
     args.eventLimit = 4;
 });
 

@@ -41,5 +41,7 @@ function notocake_enqueue_styles() {
     ) );
 
     wp_enqueue_script('bootstrap-js', '//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js');
+
+    wp_enqueue_script('jquery-validate', '//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js');
 }
 add_action( 'wp_enqueue_scripts', 'notocake_enqueue_styles' );

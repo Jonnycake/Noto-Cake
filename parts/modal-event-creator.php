@@ -7,21 +7,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label for="new_event_title">Title</label>
-                <input type="text" name="new_event_title" id="new_event_title" autofocus />
-                <label for="new_event_start_date">Start Date</label>
-                <input id="new_event_start_date" type="datetime-local" value="" name="new_event_start_date" />
-                <label for="new_event_end_date">End Date</label>
-                <input id="new_event_end_date" type="datetime-local" value="" name="new_event_end_date" />
-                <label for="new_event_all_day">All Day?</label>
-                <input id="new_event_all_day" type="checkbox" name="new_event_all_day" value="1" />
-                <hr/>
-                <label for="new_event_description">Description</label>
-                <?php wp_editor('', 'new_event_description') ?>
+                <form action="#" id="newEventForm">
+                    <label for="new_event_title">Title</label>
+                    <input type="text" name="new_event_title" id="new_event_title" autofocus required />
+                    <label for="new_event_start_date">Start Date</label>
+                    <input id="new_event_start_date" type="datetime-local" value="" name="new_event_start_date" required />
+                    <label for="new_event_end_date">End Date</label>
+                    <input id="new_event_end_date" type="datetime-local" value="" name="new_event_end_date" required />
+                    <label for="new_event_all_day">All Day?</label>
+                    <input id="new_event_all_day" type="checkbox" name="new_event_all_day" value="1" />
+                    <hr/>
+                    <label for="new_event_description">Description</label>
+                    <?php wp_editor('', 'new_event_description') ?>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="new_event_save_button" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                <button id="new_event_save_button" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -30,9 +32,30 @@
 #eventCreatorModal label {
     font-weight: bold;
 }
+#eventCreatorModal label.error {
+    font-weight:normal;
+    width: 100%;
+    color:red;
+}
+#eventCreatorModal input.error {
+    background-color: #ffe0ea;
+    color: #ff6969;
+}
 </style>
 <script type="text/javascript">
 (function($) {
+    $('#new_event_start_date').change(function() {
+        if ($('#new_event_start_date').val() > $('#new_event_end_date').val()) {
+            $('#new_event_end_date').val($('#new_event_start_date').val());
+        }
+    });
+
+    $('#new_event_end_date').change(function() {
+        if ($('#new_event_start_date').val() > $('#new_event_end_date').val()) {
+            $('#new_event_start_date').val($('#new_event_end_date').val());
+        }
+    });
+
     $('#new_event_all_day').change(function() {
         if ($('#new_event_all_day').is(':checked')) return;
 
@@ -59,14 +82,17 @@
     });
 
     $('#new_event_save_button').click(function() {
-        var data = {
-            title: $('#new_event_title').val(),
-            description: tinyMCE.get('new_event_description').getContent(),
-            start_date_time: $('#new_event_start_date').val(),
-            end_date_time: $('#new_event_end_date').val(),
-            is_all_day: $('#new_event_all_day').is(':checked'),
-        };
-        jc_create_event(data, $(document));
+        if ($('#newEventForm').valid()) {
+            var data = {
+                title: $('#new_event_title').val(),
+                description: tinyMCE.get('new_event_description').getContent(),
+                start_date_time: $('#new_event_start_date').val(),
+                end_date_time: $('#new_event_end_date').val(),
+                is_all_day: $('#new_event_all_day').is(':checked'),
+            };
+            jc_create_event(data, $(document));
+            $('#eventCreatorModal').modal('hide');
+        }
     });
 })(jQuery);
 </script>
