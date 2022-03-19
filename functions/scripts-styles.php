@@ -22,6 +22,20 @@ function notocake_enqueue_styles() {
     );
 
     wp_enqueue_style(
+        'fulllcalendar-css',
+        get_stylesheet_directory_uri() . '/node_modules/fullcalendar/main.min.css',
+        array(),
+        filemtime(__DIR__ . '/../node_modules/fullcalendar/main.min.css'),
+    );
+
+    wp_enqueue_script(
+        'fulllcalendar-js',
+        get_stylesheet_directory_uri() . '/node_modules/fullcalendar/main.min.js',
+        array('jquery'),
+        filemtime(__DIR__ . '/../node_modules/fullcalendar/main.min.js'),
+    );
+
+    wp_enqueue_style(
         'events-style',
         get_stylesheet_directory_uri() . '/assets/css/events.css',
         array('child-style'),

@@ -2,44 +2,47 @@
 get_header();
 ?>
 <div id="event-calendar">
-    <?= do_shortcode('[fullcalendar]') ?>
 </div>
-
 <?php get_template_part('parts/modal-event-creator') ?>
 <?php get_template_part('parts/modal-event-editor') ?>
 
 <style type="text/css">
-tr.fc-minor {
-    border-bottom-width: 2px;
+.fc-listWeek-button,
+  .fc-dayGridMonth-button {
+    margin-left: 0px !important;
 }
 </style>
-<script type="text/javascript">
-// Make it so that clicking events opens them in a new tab (so we keep our place)
-jQuery(document).ready(function() {
-    jQuery('.wpfc-calendar').on( 'click', '.fc-event', function(e){
-        e.preventDefault();
-        window.open( jQuery(this).attr('href'), '_blank' );
-    });
-});
+<script>
 
-// Modify the arguments passed to full calendar
-jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
-    // Disable scrollbar on agenda view
-    args.height = 'auto';
-
-    args.selectable = true;
-
-    args.select = function(start, end, jsEvent, view) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('event-calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+          start: 'today prev,next',
+          center: 'title',
+          end: 'timeGridDay listWeek dayGridMonth',
+        },
+      titleFormat: {year: 'numeric', month: 'short',},
+      initialView: 'listWeek',
+      events: jc_get_events,
+      height: 'auto',
+      contentHeight: 'auto',
+      dayHeaderFormat: { weekday: 'short', month: 'numeric', day: 'numeric', omitCommas: true },
+      navLinks: true,
+      selectable: <?= get_current_user_id() ? 'true' : 'false' ?>,
+      selectMirror: <?= get_current_user_id() ? 'true' : 'false' ?>,
+      select: function(select_info) {
         jQuery('#eventCreatorModal').modal('show');
 
-        var start_dt = start.format();
-        if (!start.hasTime()) {
+        var start_dt = select_info.startStr.substring(0,19);
+        var end_dt = select_info.endStr.substring(0,19);
+
+        if (select_info.allDay) {
             start_dt += 'T00:00:00';
-        }
-        var end_dt = end.format();
-        if (!end.hasTime()) {
             end_dt += 'T00:00:00';
         }
+
+        console.log(select_info);
 
         for (var i; i < tinyMCE.editors.length; i++) {
             tinyMCE.editors[i].undoManager.clear();
@@ -48,49 +51,47 @@ jQuery(document).on('wpfc_fullcalendar_args', function(event, args) {
         jQuery('#new_event_title').focus();
         jQuery('#new_event_start_date').val(start_dt);
         jQuery('#new_event_end_date').val(end_dt);
-        jQuery('#new_event_all_day').prop('checked', !(start.hasTime() && end.hasTime()));
+        jQuery('#new_event_all_day').prop('checked', select_info.allDay);
         tinyMCE.get('new_event_description').setContent('');
-    }
+      },
+      editable: <?= get_current_user_id() ? 'true' : 'false' ?>,
+      eventResize: function(resize_info) {
+        var event = resize_info.event;
 
-    args.eventResize = function(event, delta, revertFunc) {
         var data = {
             id: event.id,
-            start_date_time: event.start.format(),
-            end_date_time: (event.end ? event.end.format() : event.start.format()),
-            is_all_day: !(event.start.hasTime() && event.end && event.end.hasTime()),
+            start_date_time: event.start.toISOString(),
+            end_date_time: event.end.toISOString(),
+            is_all_day: event.allDay,
         };
 
         jc_edit_event(data, jQuery(document));
-    };
+      },
+      eventDrop: function(drop_info) {
+        var event = drop_info.event;
 
-    args.eventDrop = function( event, delta, revertFunc, jsEvent, ui, view ) {
         var data = {
             id: event.id,
-            start_date_time: event.start.format(),
-            end_date_time: (event.end ? event.end.format() : event.start.format()),
-            is_all_day: !(event.start.hasTime() && event.end && event.end.hasTime()),
+            start_date_time: event.start.toISOString(),
+            end_date_time: event.end.toISOString(),
+            is_all_day: event.allDay,
         };
 
         jc_edit_event(data, jQuery(document));
-    };
-
-    <?php if (isset($_REQUEST['date'])) { ?>
-        args.defaultDate = "<?= esc_attr($_REQUEST['date']) ?>";
-    <?php } ?>
-
-    <?php if (isset($_REQUEST['view'])) { ?>
-        args.defaultView = "<?= esc_attr($_REQUEST['view']) ?>";
-    <?php } ?>
-
-    args.navLinks = true;
-    args.eventLimit = 4;
-});
-
-(function($) {
-    $(document).on('jc-events-updated', function(event, args) {
-        $('.wpfc-calendar').first().fullCalendar('refetchEvents');
+      },
+      dayMaxEventRows: 3,
+      buttonText: {
+        listWeek: 'week',
+      },
     });
-})(jQuery);
+    calendar.render();
+    (function($) {
+        $(document).on('jc-events-updated', function(event, args) {
+            calendar.refetchEvents();
+        });
+    })(jQuery);
+  });
+
 </script>
 <?php
 get_footer();
