@@ -9,9 +9,6 @@ $includes = array(
     // Useful ACF Usage
     __DIR__ . '/functions/acf/custom-css-js.php',
 
-    // WP-FullCalendar Customizations
-    __DIR__ . '/functions/wpfc.php',
-
     // Custom Post Types
     __DIR__ . '/functions/custom-post-types/post-type-events.php',
     __DIR__ . '/functions/custom-post-types/post-type-projects.php',
